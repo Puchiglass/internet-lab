@@ -24,6 +24,8 @@ db.connect((err) => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({ secret: 'my-key', resave: true, saveUninitialized: true }));
 
+app.use(express.static(__dirname + 'app'));
+
 // Подключение маршрутов
 const indexRoutes = require('./app/routes/index');
 const userRoutes = require('./app/routes/user');
@@ -36,4 +38,5 @@ app.use('/issues', issuesRoutes);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Сервер запущен на порту ${PORT}`);
+    console.log(__dirname)
 });
