@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/index.css">
+    <title>Issue</title>
+</head>
+<body>
+    <h2>Issue</h2>
+    <form>
+        <label for="name">First name:</label>
+        <input type="text" id="name" name="firstname" required>
+        <br><br>
+        <label for="name">Last name:</label>
+        <input type="text" id="name" name="lastname" required>
+        <br><br>
+        <label for="name">Sure name:</label>
+        <input type="text" id="name" name="surename" required>
+        <br><br>
+        <label for="message">Your issue:</label>
+        <input type="text" id="message" name="description" required>
+        <br><br>
+        <button type="submit" onclick="submitForm()">Send</button>
+    </form>
+
+
+    <p id="my_p">some text</p>
+    <span id="identified">Тут span с каким-то текстом.</span>
+
+    <script>
+        function submitForm() {
+            // Получаем значения полей формы
+            var firstname = document.getElementById("firstname").value;
+            var lastname = document.getElementById("lastname").value;
+            var surename = document.getElementById("surename").value;
+            var description = document.getElementById("description").value;
+
+            // Создаем объект JSON
+            var data = {
+                firstname: firstname,
+                lastname: lastname,
+                surename: surename,
+                description: description,
+            };
+
+            // Создаем объект XMLHttpRequest
+            var xhr = new XMLHttpRequest();
+
+            // Настраиваем запрос
+            xhr.open("POST", "/create", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            // Обработка успешного завершения запроса
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    console.log('Ответ от сервера:', JSON.parse(xhr.responseText));
+                }
+            };
+
+            // Обработка ошибок
+            xhr.onerror = function () {
+                console.error('Ошибка отправки запроса на сервер.');
+            };
+
+            // Отправляем данные на сервер в формате JSON
+            xhr.send(JSON.stringify(data));
+        }
+    </script>
+</body>
+</html>

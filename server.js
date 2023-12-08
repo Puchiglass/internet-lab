@@ -26,17 +26,19 @@ app.use(session({ secret: 'my-key', resave: true, saveUninitialized: true }));
 
 app.use(express.static(__dirname + 'app'));
 
+app.use(bodyParser.json());
+
 // Подключение маршрутов
-const indexRoutes = require('./app/routes/index');
+const indexRoutes = require('./app/routes/create');
 const userRoutes = require('./app/routes/user');
 const issuesRoutes = require('./app/routes/issues');
 
 app.use('/', indexRoutes);
 app.use('/user', userRoutes);
+app.use('/user/issue', issuesRoutes);
 app.use('/issues', issuesRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Сервер запущен на порту ${PORT}`);
-    console.log(__dirname)
 });
