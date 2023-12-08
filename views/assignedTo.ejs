@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issues Assigned to <%= assignedTo %></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <%- include('navigation') %>
+    <h1>Issues Assigned to <%= assignedTo %></h1>
+
+    <ul>
+        <% issues.forEach(issue => { %>
+            <li>
+                <strong><%= issue.fullName %></strong>
+                <p><%= issue.description %></p>
+                <p>Status: <%= issue.status %></p>
+                <p>Comment: <%= issue.comment %></p>
+
+                <form action="/updateStatusAndComment" method="post">
+                    <input type="hidden" name="issueId" value="<%= issue.id %>">
+                    <input type="hidden" name="assignedTo" value="<%= assignedTo %>">
+                    <label for="status">Status:</label>
+                    <select id="status" name="status" required>
+                        <option value="выполнена">выполнена</option>
+                        <option value="в работе">в работе</option>
+                    </select>
+                    <label for="comment">Comment:</label>
+                    <input type="text" id="comment" name="comment">
+                    <button type="submit">Update Status and Comment</button>
+                </form>
+            </li>
+        <% }); %>
+    </ul>
+</body>
+</html>
