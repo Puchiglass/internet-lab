@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Issues</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <%- include('navigation') %>
+    <h1>All Issues</h1>
+    <!-- Form for filtering by fullName -->
+    <form action="/filterByFullName" method="post">
+        <label for="fullName">Filter by FullName:</label>
+        <input type="text" id="fullName" name="fullName" required>
+        <button type="submit">Filter</button>
+    </form>
+
+    <table border="1">
+        <tr>
+            <th>Full Name</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Assigned To</th>
+            <th>Comment</th>
+        </tr>
+        <% issues.forEach(issue => { %>
+            <tr>
+                <td><%= issue.fullName %></td>
+                <td><%= issue.description %></td>
+                <td><%= issue.status %></td>
+                <td><%= issue.assignedTo %></td>
+                <td><%= issue.comment %></td>
+            </tr>
+        <% }); %>
+    </table>
+</body>
+</html>

@@ -1,39 +1,24 @@
 const express = require('express');
-const mysql = require('mysql2');
+const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const app = express();
+const port = 3000;
 
-// Подключение к базе данных MySQL
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Coizhiv123!',
-    database: 'support_app',
-    port: 3306
-});
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({extended: true}));
 
-db.connect((err) => {
-    if (err) {
-        console.error('Ошибка подключения к базе данных:', err.message);
-    } else {
-        console.log('Подключение к базе данных успешно');
-    }
-});
+// Обслуживание статических файлов из папки public
+app.use(express.static('public'));
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({ secret: 'my-key', resave: true, saveUninitialized: true }));
+const routes = require('./requestHandlers');
 
-// Подключение маршрутов
-const indexRoutes = require('./app/routes/index');
-const userRoutes = require('./app/routes/user');
-const issuesRoutes = require('./app/routes/issues');
+app.use('/', routes);
+app.use('/submit', routes);
+app.use('/issues', routes);
+app.use('/assignedTo', routes);
+app.use('/allIssues', routes);
+app.use('/filterByFullName', routes);
 
-app.use('/', indexRoutes);
-app.use('/user', userRoutes);
-app.use('/issues', issuesRoutes);
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Сервер запущен на порту ${PORT}`);
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });

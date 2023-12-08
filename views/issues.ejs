@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issues List</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <%- include('navigation') %>
+    <h1>Issues List</h1>
+    <ul>
+        <% issues.forEach(issue => { %>
+            <li>
+                <strong><%= issue.fullName %></strong>
+                <p><%= issue.description %></p>
+                <p>Status: <%= issue.status %></p>
+
+                <% if (issue.status === 'отправлена') { %>
+                    <form action="/updateAssignedTo" method="post">
+                        <input type="hidden" name="issueId" value="<%= issue.id %>">
+                        <label for="assignedTo">Assign to:</label>
+                        <input type="text" id="assignedTo" name="assignedTo" required>
+                        <button type="submit">Update AssignedTo</button>
+                    </form>
+                <% } %>
+            </li>
+        <% }); %>
+    </ul>
+</body>
+</html>
