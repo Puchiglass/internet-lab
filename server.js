@@ -1,12 +1,12 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const bodyParser = require('body-parser');
 const app = express();
+const bodyParser = require('body-parser');
 const port = 3000;
 
+// Устанавливаем view engine
 app.set('view engine', 'ejs');
+// Устанавливаем middleware для парсинга в формате URL-encoded
 app.use(bodyParser.urlencoded({extended: true}));
-
 // Обслуживание статических файлов из папки public
 app.use(express.static('public'));
 
